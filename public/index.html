@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brwlix POS - Pharmacy Management System</title>
+    <meta name="theme-color" content="#1e3a8a">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <div class="header-top">
+            <button class="menu-btn" onclick="toggleSidebar()" aria-label="Open menu">☰</button>
+            <div class="clock">
+                <span id="time"></span><br>
+                <span id="date"></span>
+            </div>
+            <div class="branding">
+                <h1>Brwlix POS V5.9.9 - 0770 061 1000</h1>
+            </div>
+            <div class="admin-info">
+                <span id="admin-user">ADMIN: Admin2711</span>
+                <span id="app-mode-badge" class="app-mode-badge">WEB</span>
+            </div>
+        </div>
+        <div class="navbar">
+            <button class="nav-btn" onclick="showDashboard()">Dashboard</button>
+            <button class="nav-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-logo">DASHBOARD</div>
+            <button class="close-sidebar" onclick="toggleSidebar()">✕</button>
+        </div>
+
+        <div class="main-content">
+            <!-- Dashboard Overview -->
+            <div id="dashboard-overview" class="section">
+                <h2>Dashboard Overview</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Sales</h3>
+                        <p id="stat-sales">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Revenue</h3>
+                        <p id="stat-revenue">$0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Products</h3>
+                        <p id="stat-products">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Low Stock Items</h3>
+                        <p id="stat-lowstock">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Grid -->
+            <div id="dashboard" class="dashboard">
+                <!-- Blue Section -->
+                <div class="dashboard-section blue" onclick="openModule('barcode-creation')">
+                    <div class="icon">📊</div>
+                    <p>Barcode Creation</p>
+                </div>
+                <div class="dashboard-section blue" onclick="openModule('item-pricing')">
+                    <div class="icon">💳</div>
+                    <p>Item Pricing</p>
+                </div>
+                <div class="dashboard-section blue" onclick="openModule('inventory-items')">
+                    <div class="icon">📦</div>
+                    <p>Inventory Items</p>
+                </div>
+                <div class="dashboard-section blue" onclick="openModule('spend-history')">
+                    <div class="icon">📈</div>
+                    <p>Spend History</p>
+                </div>
+                <div class="dashboard-section blue" onclick="openModule('register-payments')">
+                    <div class="icon">💰</div>
+                    <p>Register Payments</p>
+                </div>
+                <div class="dashboard-section blue" onclick="openModule('sales-receipts')">
+                    <div class="icon">🧾</div>
+                    <p>Sales Receipts</p>
+                </div>
+                <div class="dashboard-section blue" onclick="openModule('sale-of-goods')">
+                    <div class="icon">🛍️</div>
+                    <p>Sale of Goods</p>
+                </div>
+
+                <!-- Orange Section -->
+                <div class="dashboard-section orange" onclick="openModule('loan-recovery')">
+                    <div class="icon">💳</div>
+                    <p>Loan Recovery</p>
+                </div>
+                <div class="dashboard-section orange" onclick="openModule('debtor-list')">
+                    <div class="icon">📋</div>
+                    <p>Debtor List</p>
+                </div>
+
+                <!-- Green Section -->
+                <div class="dashboard-section green" onclick="openModule('company-debt')">
+                    <div class="icon">💵</div>
+                    <p>Company Debt</p>
+                </div>
+                <div class="dashboard-section green" onclick="openModule('purchase-receipts')">
+                    <div class="icon">📄</div>
+                    <p>Purchase Receipts</p>
+                </div>
+                <div class="dashboard-section green" onclick="openModule('purchase-of-goods')">
+                    <div class="icon">📦</div>
+                    <p>Purchase of Goods</p>
+                </div>
+                <div class="dashboard-section green" onclick="openModule('product-list')">
+                    <div class="icon">📋</div>
+                    <p>Product List</p>
+                </div>
+                <div class="dashboard-section green" onclick="openModule('register-new-product')">
+                    <div class="icon">📦</div>
+                    <p>Register New Product</p>
+                </div>
+
+                <!-- Red Section -->
+                <div class="dashboard-section red" onclick="openModule('low-stock-alert')">
+                    <div class="icon">⚠️</div>
+                    <p>Low Stock Alert</p>
+                </div>
+                <div class="dashboard-section red" onclick="openModule('defective-items')">
+                    <div class="icon">❌</div>
+                    <p>Defective Items</p>
+                </div>
+                <div class="dashboard-section red" onclick="openModule('profit-report')">
+                    <div class="icon">📊</div>
+                    <p>Profit Report</p>
+                </div>
+                <div class="dashboard-section red" onclick="openModule('till-register')">
+                    <div class="icon">💸</div>
+                    <p>Till/Register</p>
+                </div>
+                <div class="dashboard-section orange" onclick="openModule('layaway-dashboard')">
+                    <div class="icon">📋</div>
+                    <p>Layaway Dashboard</p>
+                </div>
+                <div class="dashboard-section orange-light" onclick="openModule('customer-dashboard')">
+                    <div class="icon">👤</div>
+                    <p>Customer Dashboard</p>
+                </div>
+                <div class="dashboard-section orange-light" onclick="openModule('customer-alert')">
+                    <div class="icon">🔔</div>
+                    <p>Customer Alert</p>
+                </div>
+
+                <!-- Light Red Section -->
+                <div class="dashboard-section red" onclick="openModule('export-data')">
+                    <div class="icon">📊</div>
+                    <p>Export Data</p>
+                </div>
+                <div class="dashboard-section red" onclick="openModule('cash-report')">
+                    <div class="icon">💵</div>
+                    <p>Cash Report</p>
+                </div>
+                <div class="dashboard-section red" onclick="openModule('purchase-table')">
+                    <div class="icon">🛒</div>
+                    <p>Purchase Table</p>
+                </div>
+                <div class="dashboard-section red" onclick="openModule('purchase-account-statement')">
+                    <div class="icon">📄</div>
+                    <p>Purchase Account Statement</p>
+                </div>
+                <div class="dashboard-section red" onclick="openModule('customer-account-statement')">
+                    <div class="icon">👥</div>
+                    <p>Customer Account Statement</p>
+                </div>
+                <div class="dashboard-section red" onclick="openModule('cash-account-statement')">
+                    <div class="icon">💰</div>
+                    <p>Cash Account Statement</p>
+                </div>
+                <div class="dashboard-section pink" onclick="openModule('sales-table')">
+                    <div class="icon">📊</div>
+                    <p>Sales Table</p>
+                </div>
+
+                <!-- Brown Section -->
+                <div class="dashboard-section brown" onclick="openModule('settings')">
+                    <div class="icon">⚙️</div>
+                    <p>Settings</p>
+                </div>
+                <div class="dashboard-section brown" onclick="openModule('supplies')">
+                    <div class="icon">📦</div>
+                    <p>Supplies</p>
+                </div>
+                <div class="dashboard-section brown" onclick="openModule('daybook')">
+                    <div class="icon">📖</div>
+                    <p>Daybook</p>
+                </div>
+                <div class="dashboard-section brown" onclick="openModule('data-backup')">
+                    <div class="icon">💾</div>
+                    <p>Data Backup</p>
+                </div>
+                <div class="dashboard-section brown" onclick="openModule('system-user')">
+                    <div class="icon">👨‍💼</div>
+                    <p>System User</p>
+                </div>
+            </div>
+
+            <!-- Module Contents -->
+            <div id="modules">
+                <!-- Barcode Creation Module -->
+                <div id="barcode-creation" class="module">
+                    <div class="module-header">
+                        <h2>Barcode Creation</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <form id="barcodeForm" onsubmit="generateBarcode(event)">
+                            <input type="text" placeholder="Product Name" id="barcodeName" required>
+                            <input type="text" placeholder="SKU" id="barcodeSKU" required>
+                            <input type="text" placeholder="Barcode Value" id="barcodeValue" required>
+                            <button type="button" class="btn-secondary" onclick="scanBarcodeToInput('#barcodeValue')">Scan with Camera</button>
+                            <button type="submit" class="btn-primary">Generate Barcode</button>
+                        </form>
+                        <div id="barcodeOutput"></div>
+                        <table id="barcodeTable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Product</th>
+                                    <th>SKU</th>
+                                    <th>Barcode Value</th>
+                                </tr>
+                            </thead>
+                            <tbody id="barcodeBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Item Pricing Module -->
+                <div id="item-pricing" class="module">
+                    <div class="module-header">
+                        <h2>Item Pricing</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <div class="form-group">
+                            <input type="text" placeholder="Search Product..." id="searchPrice" onkeyup="searchPricing()">
+                        </div>
+                        <table id="pricingTable">
+                            <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>SKU</th>
+                                    <th>Cost Price</th>
+                                    <th>Selling Price</th>
+                                    <th>Margin %</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pricingBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Inventory Items Module -->
+                <div id="inventory-items" class="module">
+                    <div class="module-header">
+                        <h2>Inventory Items</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <div class="form-group">
+                            <input type="text" placeholder="Search Inventory..." id="searchInventory" onkeyup="searchInventory()">
+                        </div>
+                        <table id="inventoryTable">
+                            <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>SKU</th>
+                                    <th>Stock Quantity</th>
+                                    <th>Min Stock</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventoryBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Spend History Module -->
+                <div id="spend-history" class="module">
+                    <div class="module-header">
+                        <h2>Spend History</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <table id="spendTable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Amount</th>
+                                    <th>Category</th>
+                                </tr>
+                            </thead>
+                            <tbody id="spendBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Register Payments Module -->
+                <div id="register-payments" class="module">
+                    <div class="module-header">
+                        <h2>Register Payments</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <form id="paymentForm" onsubmit="recordPayment(event)">
+                            <input type="number" placeholder="Amount" id="paymentAmount" required>
+                            <select id="paymentMethod" required>
+                                <option>Cash</option>
+                                <option>Card</option>
+                                <option>Cheque</option>
+                            </select>
+                            <input type="text" placeholder="Reference" id="paymentRef">
+                            <button type="submit" class="btn-primary">Record Payment</button>
+                        </form>
+                        <table id="paymentsTable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Method</th>
+                                    <th>Reference</th>
+                                </tr>
+                            </thead>
+                            <tbody id="paymentsBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Sales Receipts Module -->
+                <div id="sales-receipts" class="module">
+                    <div class="module-header">
+                        <h2>Sales Receipts</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <table id="receiptsTable">
+                            <thead>
+                                <tr>
+                                    <th>Receipt #</th>
+                                    <th>Date</th>
+                                    <th>Total Amount</th>
+                                    <th>Payment Method</th>
+                                    <th>Customer</th>
+                                </tr>
+                            </thead>
+                            <tbody id="receiptsBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Sale of Goods Module -->
+                <div id="sale-of-goods" class="module">
+                    <div class="module-header">
+                        <h2>Sale of Goods</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <form id="saleForm" onsubmit="recordSale(event)">
+                            <input type="text" placeholder="Receipt #" id="receiptNo" required>
+                            <input type="text" placeholder="Customer Name" id="saleCustomer">
+                            <select id="salePaymentMethod" required>
+                                <option>Cash</option>
+                                <option>Card</option>
+                                <option>Credit</option>
+                            </select>
+                            <div id="saleItems"></div>
+                            <button type="button" class="btn-secondary" onclick="addSaleItem()">Add Item</button>
+                            <button type="submit" class="btn-primary">Complete Sale</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Loan Recovery Module -->
+                <div id="loan-recovery" class="module">
+                    <div class="module-header">
+                        <h2>Loan Recovery</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <form id="loanForm" onsubmit="recordLoanRecovery(event)">
+                            <input type="text" placeholder="Customer Name" id="loanCustomer" required>
+                            <input type="number" placeholder="Loan Amount" id="loanAmount" required>
+                            <input type="number" placeholder="Recovered Amount" id="recoveredAmount" required>
+                            <button type="submit" class="btn-primary">Record Recovery</button>
+                        </form>
+                        <table id="loansTable">
+                            <thead>
+                                <tr>
+                                    <th>Customer</th>
+                                    <th>Original Amount</th>
+                                    <th>Recovered</th>
+                                    <th>Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="loansBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Debtor List Module -->
+                <div id="debtor-list" class="module">
+                    <div class="module-header">
+                        <h2>Debtor List</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <table id="debtorTable">
+                            <thead>
+                                <tr>
+                                    <th>Customer Name</th>
+                                    <th>Amount Due</th>
+                                    <th>Due Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="debtorBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Product List Module -->
+                <div id="product-list" class="module">
+                    <div class="module-header">
+                        <h2>Product List</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <div class="form-group">
+                            <input type="text" placeholder="Search Products..." id="searchProducts" onkeyup="searchProducts()">
+                        </div>
+                        <table id="productsTable">
+                            <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>SKU</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                    <th>Category</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productsBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Register New Product Module -->
+                <div id="register-new-product" class="module">
+                    <div class="module-header">
+                        <h2>Register New Product</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <form id="addProductForm" onsubmit="addProduct(event)">
+                            <input type="text" placeholder="Product Name" id="productName" required>
+                            <input type="text" placeholder="SKU" id="productSKU" required>
+                            <input type="text" placeholder="Barcode" id="productBarcode">
+                            <button type="button" class="btn-secondary" onclick="scanBarcodeToInput('#productBarcode')">Scan Barcode</button>
+                            <input type="text" placeholder="Category" id="productCategory">
+                            <input type="number" placeholder="Cost Price" id="productCost" step="0.01" required>
+                            <input type="number" placeholder="Selling Price" id="productPrice" step="0.01" required>
+                            <input type="number" placeholder="Initial Stock" id="productStock" value="0">
+                            <input type="number" placeholder="Minimum Stock" id="productMinStock" value="10">
+                            <textarea placeholder="Description" id="productDesc"></textarea>
+                            <button type="submit" class="btn-primary">Add Product</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Low Stock Alert Module -->
+                <div id="low-stock-alert" class="module">
+                    <div class="module-header">
+                        <h2>Low Stock Alert</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <table id="lowStockTable">
+                            <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Current Stock</th>
+                                    <th>Minimum Required</th>
+                                    <th>Alert Level</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lowStockBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Defective Items Module -->
+                <div id="defective-items" class="module">
+                    <div class="module-header">
+                        <h2>Defective Items</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <form id="defectiveForm" onsubmit="recordDefective(event)">
+                            <input type="text" placeholder="Product Name" id="defectiveProduct" required>
+                            <input type="number" placeholder="Quantity" id="defectiveQty" required>
+                            <input type="text" placeholder="Reason for Defect" id="defectiveReason" required>
+                            <button type="submit" class="btn-primary">Record Defect</button>
+                        </form>
+                        <table id="defectiveTable">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Reason</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="defectiveBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Profit Report Module -->
+                <div id="profit-report" class="module">
+                    <div class="module-header">
+                        <h2>Profit Report</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <div class="report-summary">
+                            <div class="report-item">
+                                <label>Total Sales:</label>
+                                <p id="reportTotalSales">$0</p>
+                            </div>
+                            <div class="report-item">
+                                <label>Total Cost:</label>
+                                <p id="reportTotalCost">$0</p>
+                            </div>
+                            <div class="report-item">
+                                <label>Total Profit:</label>
+                                <p id="reportTotalProfit">$0</p>
+                            </div>
+                            <div class="report-item">
+                                <label>Profit Margin:</label>
+                                <p id="reportMargin">0%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Purchase of Goods Module -->
+                <div id="purchase-of-goods" class="module">
+                    <div class="module-header">
+                        <h2>Purchase of Goods</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <form id="purchaseForm" onsubmit="recordPurchase(event)">
+                            <input type="text" placeholder="Purchase #" id="purchaseNo" required>
+                            <input type="text" placeholder="Vendor Name" id="vendorName" required>
+                            <div id="purchaseItems"></div>
+                            <button type="button" class="btn-secondary" onclick="addPurchaseItem()">Add Item</button>
+                            <button type="submit" class="btn-primary">Complete Purchase</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Till/Register Module -->
+                <div id="till-register" class="module">
+                    <div class="module-header">
+                        <h2>Till/Register Management</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <form id="tillForm" onsubmit="manageTill(event)">
+                            <input type="text" placeholder="Register Name" id="registerName" required>
+                            <input type="number" placeholder="Opening Balance" id="openingBalance" step="0.01" required>
+                            <select id="tillAction" required>
+                                <option>Open Register</option>
+                                <option>Close Register</option>
+                            </select>
+                            <button type="submit" class="btn-primary">Apply</button>
+                        </form>
+                        <div id="tillStatus" class="register-status"></div>
+                        <table id="tillHistoryTable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Register</th>
+                                    <th>Action</th>
+                                    <th>Opening Balance</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tillHistoryBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Customer Dashboard Module -->
+                <div id="customer-dashboard" class="module">
+                    <div class="module-header">
+                        <h2>Customer Dashboard</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <form id="customerForm" onsubmit="addCustomer(event)">
+                            <input type="text" placeholder="Customer Name" id="customerName" required>
+                            <input type="tel" placeholder="Phone" id="customerPhone">
+                            <input type="email" placeholder="Email" id="customerEmail">
+                            <input type="text" placeholder="Address" id="customerAddress">
+                            <input type="number" placeholder="Credit Limit" id="creditLimit" step="0.01">
+                            <button type="submit" class="btn-primary">Add Customer</button>
+                        </form>
+                        <table id="customersTable">
+                            <thead>
+                                <tr>
+                                    <th>Customer Name</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Credit Limit</th>
+                                    <th>Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customersBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Settings Module -->
+                <div id="settings" class="module">
+                    <div class="module-header">
+                        <h2>Settings</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <div class="settings-group">
+                            <label>Business Name:</label>
+                            <input type="text" id="businessName" value="Brwlix POS">
+                        </div>
+                        <div class="settings-group">
+                            <label>Currency:</label>
+                            <select id="currencySelect">
+                                <option>USD</option>
+                                <option>EUR</option>
+                                <option>GBP</option>
+                                <option>UGX</option>
+                            </select>
+                        </div>
+                        <div class="settings-group">
+                            <label>Tax Rate (%):</label>
+                            <input type="number" id="taxRate" value="0" step="0.01">
+                        </div>
+                        <button class="btn-primary" onclick="saveSettings()">Save Settings</button>
+                    </div>
+                </div>
+
+                <!-- Data Backup Module -->
+                <div id="data-backup" class="module">
+                    <div class="module-header">
+                        <h2>Data Backup</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <div class="backup-options">
+                            <button class="btn-primary" onclick="backupDatabase()">Backup Database</button>
+                            <button class="btn-secondary" onclick="restoreBackup()">Restore Backup</button>
+                        </div>
+                        <div id="backupLog"></div>
+                    </div>
+                </div>
+
+                <!-- System User Module -->
+                <div id="system-user" class="module">
+                    <div class="module-header">
+                        <h2>System User Management</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <form id="userForm" onsubmit="addUser(event)">
+                            <input type="text" placeholder="Username" id="username" required>
+                            <input type="email" placeholder="Email" id="useremail" required>
+                            <select id="userRole" required>
+                                <option>Admin</option>
+                                <option>Manager</option>
+                                <option>Cashier</option>
+                                <option>Viewer</option>
+                            </select>
+                            <button type="submit" class="btn-primary">Add User</button>
+                        </form>
+                        <table id="usersTable">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Placeholder Modules -->
+                <div id="company-debt" class="module">
+                    <div class="module-header">
+                        <h2>Company Debt</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <p>Use Purchase Account Statement to review payable ledger and post supplier payments.</p>
+                        <div class="form-group">
+                            <select id="companyDebtAccount"></select>
+                            <input type="number" id="companyDebtAmount" placeholder="Payment amount" step="0.01">
+                            <input type="text" id="companyDebtNote" placeholder="Note">
+                            <button class="btn-primary" onclick="submitCompanyPayment()">Record Payment</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="purchase-receipts" class="module">
+                    <div class="module-header">
+                        <h2>Purchase Receipts</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <p>Purchase receipts module coming soon...</p>
+                    </div>
+                </div>
+
+                <div id="layaway-dashboard" class="module">
+                    <div class="module-header">
+                        <h2>Layaway Dashboard</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <p>Layaway tracking coming soon...</p>
+                    </div>
+                </div>
+
+                <div id="customer-alert" class="module">
+                    <div class="module-header">
+                        <h2>Customer Alert</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <p>Customer alerts module coming soon...</p>
+                    </div>
+                </div>
+
+                <div id="export-data" class="module">
+                    <div class="module-header">
+                        <h2>Export Data</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <button class="btn-primary" onclick="exportToCSV()">Export to CSV</button>
+                        <button class="btn-primary" onclick="exportToExcel()">Export to Excel</button>
+                    </div>
+                </div>
+
+                <div id="cash-report" class="module">
+                    <div class="module-header">
+                        <h2>Cash Report</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <p>Cash report module coming soon...</p>
+                    </div>
+                </div>
+
+                <div id="purchase-table" class="module">
+                    <div class="module-header">
+                        <h2>Purchase Table</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <table id="purchaseTableView">
+                            <thead>
+                                <tr>
+                                    <th>Purchase #</th>
+                                    <th>Date</th>
+                                    <th>Vendor</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="purchaseTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="purchase-account-statement" class="module">
+                    <div class="module-header">
+                        <h2>Purchase Account Statement</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <div class="form-group">
+                            <select id="companyStatementAccount"></select>
+                            <input type="date" id="companyStatementFrom">
+                            <input type="date" id="companyStatementTo">
+                            <button class="btn-primary" onclick="loadCompanyStatement()">Load Statement</button>
+                        </div>
+                        <table>
+                            <thead><tr><th>Date</th><th>Type</th><th>Amount</th><th>Note</th></tr></thead>
+                            <tbody id="companyStatementBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="customer-account-statement" class="module">
+                    <div class="module-header">
+                        <h2>Customer Account Statement</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <div class="form-group">
+                            <select id="customerStatementAccount"></select>
+                            <input type="date" id="customerStatementFrom">
+                            <input type="date" id="customerStatementTo">
+                            <button class="btn-primary" onclick="loadCustomerStatement()">Load Statement</button>
+                        </div>
+                        <table>
+                            <thead><tr><th>Date</th><th>Type</th><th>Amount</th><th>Note</th></tr></thead>
+                            <tbody id="customerStatementBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="cash-account-statement" class="module">
+                    <div class="module-header">
+                        <h2>Cash Account Statement</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <table>
+                            <thead><tr><th>Date</th><th>Method</th><th>Amount</th><th>Reference</th></tr></thead>
+                            <tbody id="cashStatementBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="sales-table" class="module">
+                    <div class="module-header">
+                        <h2>Sales Table</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <table id="salesTableView">
+                            <thead>
+                                <tr>
+                                    <th>Receipt #</th>
+                                    <th>Date</th>
+                                    <th>Customer</th>
+                                    <th>Amount</th>
+                                    <th>Payment Method</th>
+                                </tr>
+                            </thead>
+                            <tbody id="salesTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="supplies" class="module">
+                    <div class="module-header">
+                        <h2>Supplies</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <p>Supplies management module coming soon...</p>
+                    </div>
+                </div>
+
+                <div id="daybook" class="module">
+                    <div class="module-header">
+                        <h2>Daybook</h2>
+                        <button class="close-btn" onclick="closeModule()">✕</button>
+                    </div>
+                    <div class="module-content">
+                        <p>Daybook module coming soon...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

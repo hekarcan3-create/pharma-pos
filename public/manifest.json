@@ -1,0 +1,24 @@
+{
+  "name": "Brwlix Pharma POS",
+  "short_name": "Brwlix POS",
+  "id": "/",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f5f5f5",
+  "theme_color": "#1e3a8a",
+  "description": "Offline-first pharmacy point of sale and inventory manager.",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

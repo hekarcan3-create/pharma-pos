@@ -1,0 +1,55 @@
+{
+  "name": "pharma-pos-system",
+  "version": "1.0.0",
+  "description": "Pharmaceutical POS and Inventory Management System",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "web:start": "node server.js",
+    "mobile:start": "powershell -NoProfile -Command \"$ips=(Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.IPAddress -notlike '127.*' -and $_.IPAddress -notlike '169.254.*' } | Select-Object -ExpandProperty IPAddress -Unique); Write-Host 'Open on mobile (same Wi-Fi):'; $ips | ForEach-Object { Write-Host ('http://' + $_ + ':3000') }; $env:AUTO_OPEN='false'; node server.js\"",
+    "desktop:start": "cross-env AUTO_OPEN=false ELECTRON_MODE=true concurrently \"node server.js\" \"wait-on http://localhost:3000 && electron .\"",
+    "desktop:app": "cross-env ELECTRON_MODE=true electron .",
+    "desktop:dev": "cross-env AUTO_OPEN=false ELECTRON_MODE=true concurrently \"node server.js\" \"wait-on http://localhost:3000 && electron .\"",
+    "build:win": "electron-builder --win --x64"
+  },
+  "keywords": [
+    "pos",
+    "pharmacy",
+    "inventory",
+    "management"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "concurrently": "^9.2.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "open": "^11.0.0",
+    "sqlite3": "^5.1.6",
+    "wait-on": "^8.0.5"
+  },
+  "devDependencies": {
+    "cross-env": "^10.1.0",
+    "electron": "^37.1.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.brwlix.pharma",
+    "productName": "Brwlix Pharma POS",
+    "files": [
+      "main.js",
+      "server.js",
+      "public/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis"
+    }
+  }
+}
